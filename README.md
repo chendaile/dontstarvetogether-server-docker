@@ -1,8 +1,3 @@
-<p align="center">
-  <a href="https://www.klei.com/games/dont-starve-together"><img src="https://img.shields.io/badge/game-Don't_Starve_Together-8B4513?style=for-the-badge" alt="DST"></a>
-  <a href="https://www.docker.com/"><img src="https://img.shields.io/badge/runtime-Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"></a>
-  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="MIT"></a>
-</p>
 
 <br>
 
@@ -15,6 +10,11 @@
 
 `Forest + Caves` · `SteamCMD auto-install` · `Boot-time mods` · `Non-root`
 
+<p align="center">
+  <a href="https://www.klei.com/games/dont-starve-together"><img src="https://img.shields.io/badge/game-Don't_Starve_Together-8B4513?style=for-the-badge" alt="DST"></a>
+  <a href="https://www.docker.com/"><img src="https://img.shields.io/badge/runtime-Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="MIT"></a>
+</p>
 <br>
 
 <sub>📖 <a href="./README_CN.md">中文文档</a> · English</sub>

@@ -1,8 +1,3 @@
-<p align="center">
-  <a href="https://www.klei.com/games/dont-starve-together"><img src="https://img.shields.io/badge/游戏-饥荒联机版-8B4513?style=for-the-badge" alt="DST"></a>
-  <a href="https://www.docker.com/"><img src="https://img.shields.io/badge/运行环境-Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"></a>
-  <a href="./LICENSE"><img src="https://img.shields.io/badge/许可-MIT-green?style=for-the-badge" alt="MIT"></a>
-</p>
 
 <br>
 
@@ -14,6 +9,11 @@
 **运行属于你自己的世界 — 持久在线，尽在掌控。**
 
 `森林 + 洞穴` · `SteamCMD 自动安装` · `启动即下 Mod` · `非 root`
+<p align="center">
+  <a href="https://www.klei.com/games/dont-starve-together"><img src="https://img.shields.io/badge/游戏-饥荒联机版-8B4513?style=for-the-badge" alt="DST"></a>
+  <a href="https://www.docker.com/"><img src="https://img.shields.io/badge/运行环境-Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/许可-MIT-green?style=for-the-badge" alt="MIT"></a>
+</p>
 
 <br>
 
