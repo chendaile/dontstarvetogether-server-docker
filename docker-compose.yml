@@ -21,7 +21,7 @@ services:
       # Cluster config + saves. Mounted at Cluster_1 because that is the cluster
       # folder name the server expects under .klei/DoNotStarveTogether.
       - ./dst_config:/home/dst/.klei/DoNotStarveTogether/Cluster_1
-      - ./DST:/home/dst/DST              
+      - ./dst_server_cache:/home/dst/dst_server_cache              
       - ./start.sh:/home/dst/start.sh:ro          # live-mount so edits apply on restart
     environment:
       - SHARD_NAME=Caves
@@ -38,7 +38,7 @@ services:
       - "${MASTER_PORT:-11999}:11999/udp"
     volumes:
       - ./dst_config:/home/dst/.klei/DoNotStarveTogether/Cluster_1
-      - ./DST:/home/dst/DST 
+      - ./dst_server_cache:/home/dst/dst_server_cache 
       - ./start.sh:/home/dst/start.sh:ro
     environment:
       - SHARD_NAME=Master

@@ -11,13 +11,15 @@ FROM debian:13-slim
 # DST's dedicated server binary is 32-bit (i386), so we enable the i386 package
 # architecture and pull in the matching runtime libraries:
 #   ca-certificates, wget          -> fetch SteamCMD over HTTPS
+#   unzip                          -> unpack legacy Workshop mods (steamcmd leaves
+#                                     them as a single _legacy.bin ZIP archive)
 #   lib32gcc-s1, lib32stdc++6      -> 32-bit C/C++ runtime the server links against
 #   libcurl4-gnutls-dev:i386       -> 32-bit cURL the server uses for networking
 # --no-install-recommends + removing apt lists keeps the image small.
 RUN dpkg --add-architecture i386 && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
-        ca-certificates wget \
+        ca-certificates wget unzip \
         lib32gcc-s1 lib32stdc++6 libcurl4-gnutls-dev:i386 && \
     rm -rf /var/lib/apt/lists/*
 
@@ -32,7 +34,7 @@ tar -xvzf steamcmd_linux.tar.gz
 
 # Pre-create the install dir and hand the whole home dir to the dst user so the
 # game files (downloaded later) can be written without root.
-RUN mkdir -p /home/dst/DST/mods && chown -R dst:dst /home/dst
+RUN mkdir -p /home/dst/dst_server_cache/mods && chown -R dst:dst /home/dst
 USER dst
 WORKDIR /home/dst
 
@@ -40,7 +42,7 @@ WORKDIR /home/dst
 # VOLUME: compose already bind-mounts ./DST over it, and a VOLUME on the install
 # dir creates a root-owned anonymous volume (especially for mods/) that steamcmd
 # (running as user dst) cannot write to during install -> state 0x602.
-VOLUME [ "/home/dst/.klei/DoNotStarveTogether" , "/home/dst/DST"]
+VOLUME [ "/home/dst/.klei/DoNotStarveTogether" ]
 
 # start.sh is the entrypoint: it installs/updates DST, fetches mods, then boots
 # the requested shard. compose also bind-mounts it so edits apply on restart.
