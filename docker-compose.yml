@@ -1,0 +1,52 @@
+# ---------------------------------------------------------------------------
+# A DST "cluster" is made of two shards that run as two containers:
+#   dst_master -> the surface world (forest). Players spawn here.
+#   dst_caves  -> the caves world. Joined to the master to form one world.
+# Both build from the same Dockerfile and share the same config + mods folders;
+# only SHARD_NAME (and the port) differs. They talk to each other over a private
+# Docker network using the master's container name as a hostname.
+#
+# Values like ${MASTER_PORT:-11999} mean "use $MASTER_PORT from the .env file,
+# or fall back to 11999". Copy .env.example to .env to override names/ports.
+# ---------------------------------------------------------------------------
+services:
+  dst_caves:
+    container_name: ${CAVES_NAME:-dst_caves}   # host-visible container name
+    build: .                                   # build from ./Dockerfile
+    ports:
+      - "${CAVES_PORT:-11998}:11998/udp"       # DST uses UDP only; host:container
+    networks:
+      - dst_cluster                            # private net shared with master
+    volumes:
+      # Cluster config + saves. Mounted at Cluster_1 because that is the cluster
+      # folder name the server expects under .klei/DoNotStarveTogether.
+      - ./dst_config:/home/dst/.klei/DoNotStarveTogether/Cluster_1
+      - ./DST:/home/dst/DST              
+      - ./start.sh:/home/dst/start.sh:ro          # live-mount so edits apply on restart
+    environment:
+      - SHARD_NAME=Caves
+    depends_on: 
+    - dst_master
+    restart: unless-stopped
+
+  dst_master:
+    container_name: ${MASTER_NAME:-dst_master}
+    build: .
+    networks:
+      - dst_cluster
+    ports:
+      - "${MASTER_PORT:-11999}:11999/udp"
+    volumes:
+      - ./dst_config:/home/dst/.klei/DoNotStarveTogether/Cluster_1
+      - ./DST:/home/dst/DST 
+      - ./start.sh:/home/dst/start.sh:ro
+    environment:
+      - SHARD_NAME=Master
+    restart: unless-stopped
+
+# Private bridge network. Containers resolve each other by service/container name
+# (e.g. cluster.ini sets master_ip = dst_master), so the caves shard can reach
+# the master without any hard-coded IPs.
+networks:
+  dst_cluster:
+
