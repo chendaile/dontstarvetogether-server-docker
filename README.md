@@ -1,7 +1,7 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/game-Don't_Starve_Together-8B4513?style=for-the-badge" alt="DST">
-  <img src="https://img.shields.io/badge/runtime-Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
-  <img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="MIT">
+  <a href="https://www.klei.com/games/dont-starve-together"><img src="https://img.shields.io/badge/game-Don't_Starve_Together-8B4513?style=for-the-badge" alt="DST"></a>
+  <a href="https://www.docker.com/"><img src="https://img.shields.io/badge/runtime-Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="MIT"></a>
 </p>
 
 <br>
