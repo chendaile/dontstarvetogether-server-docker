@@ -1,10 +1,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Cluster Configuration File
+;;; Cluster Configuration — the command center for your DST world.
+;;; 集群配置 — DST 世界的控制中心。
 ;;;
-;;; Customize the values as you wish! Make sure to replace
-;;; every place where you can find a "[CHANGE THIS]" comment.
+;;; Customize the values as needed. Replace every "[CHANGE THESE]" placeholder.
+;;; 按需自定义各值，替换所有 "[CHANGE THESE]" 占位项。
 ;;;
-;;; Further reference on Cluster / Server options:
+;;; Reference / 参考文档：
 ;;; - http://steamcommunity.com/sharedfiles/filedetails/?id=590565473
 ;;; - https://forums.kleientertainment.com/topic/64552-dedicated-server-settings-guide/
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -18,7 +19,8 @@ max_players = 16
 pvp = false
 ;; true|false
 pause_when_empty = true
-;; Set to true to enable voting features.
+;; Enable voting features.
+;; 启用投票功能。
 ;; true|false
 vote_enabled = true
 
@@ -35,59 +37,68 @@ cluster_password =
 autosaver_enabled = true
 ;; true|false
 enable_vote_kick = false
-;; This is the number of times per-second that the server sends updates to clients. Increasing
-;; this may improve precision, but will result in more network traffic. It is recommended to
-;; leave this at the default value of 15. If you do change this option, do so only for LAN games,
-;; and use a number evenly divisible into 60 (15, 20, 30).
+;; Server update ticks per second. Higher = smoother but more bandwidth.
+;; Keep the default of 15 unless necessary. Only change for LAN games,
+;; and use a value evenly divisible into 60 (15, 20, 30).
+;; 服务器每秒更新频率。越高越流畅但带宽消耗越大。
+;; 若非必要保持默认值 15。仅在局域网游戏中调整，
+;; 使用能被 60 整除的值 (15, 20, 30)。
 ;; 10|15|30|60
 tick_rate = 15
-;; milliseconds before unresponsive clients gets kicked out
+;; milliseconds before unresponsive clients are kicked / 无响应客户端被踢出的毫秒数
 connection_timeout = 8000
 
 ;;; OFFLINE MODE ;;;
-;;; Enabling this flag removes the need of generating a token and updating cluster_token.txt
-;;; However your server will NOT be available over the network (local or internet). Used mostly
-;;; for debugging purposes.
+;;; 离线模式 ;;;
+;;; Enabling this flag removes the need for a cluster token. The server will
+;;; NOT be available over the network (local or internet). Used for debugging.
+;;; 启用此标志无需 cluster_token。服务器将无法通过网络访问（局域网或互联网均不可），
+;;; 主要用于调试。
 ; offline_server = true
 
 [MISC]
-;; Maximum number of snapshots to retain. These snapshots are created every time a save occurs,
-;; and are available in the “Rollback” tab on the “Host Game” screen.
+;; Maximum number of snapshots to retain. Snapshots are created on every save
+;; and are available in the "Rollback" tab on the "Host Game" screen.
+;; 保留的最大快照数。每次保存时创建，可在"Host Game"界面的"Rollback"标签页使用。
 max_snapshots = 6
 ;; true|false
 console_enabled = true
 
 ;;; STEAM GROUP ;;;
-;;; Associates a Steam Group to your server. This is *completely optional* and has a few advantages:
-;;;  - All the members of your group will see the server at the top of the server list
-;;;  - People will see your group page when clicking on the "flag"(group) icon in the Server Description
-;;;  - One can easily make the server accessible ONLY by group members, so no need for password.
+;;; STEAM 群组 ;;;
+;;; Associates a Steam Group to your server. Completely optional. Advantages:
+;;; 将 Steam 群组关联到服务器。完全可选。优势：
+;;;  - Group members see the server at the top of the server list
+;;;    群组成员在服务器列表顶部看到该服务器
+;;;  - Group page shown when clicking the "flag" (group) icon in Server Description
+;;;    点击服务器描述中的"旗帜"（群组）图标可查看群组页面
+;;;  - Restrict access to group members only, no password needed.
+;;;    可限制仅群组成员访问，无需设置密码。
 ;;;
-;;; Uncomment any of the following config lines under [STEAM] according to your needs.
-;;;
-;;; More info - and how to find your Steam Group ID:
+;;; Reference / 参考：
 ;;;  - https://forums.kleientertainment.com/topic/55994-server-admin-associate-your-server-with-a-steam-group/
 [STEAM]
-;; numbers only, your Steam Group ID
+;; numbers only, your Steam Group ID / 仅数字，Steam 群组 ID
 ; steam_group_id = 00000000000
 
-;; If this is set to true, GROUP MEMBERS ONLY will be allowed to join the server. You might consider
-;; disabling `cluster_password` above if enabling this feature.
+;; If true, GROUP MEMBERS ONLY may join. Consider disabling `cluster_password` above.
+;; 设为 true 则仅群组成员可加入。可考虑禁用上方 `cluster_password`。
 ;; true|false
 ; steam_group_only = false
 
-;; When this is set to true, admins of the steam group specified in steam_group_id will also have admin
-;; status on the server.
+;; If true, admins of the specified Steam group also get admin on the server.
+;; 设为 true 则指定群组的管理员也获得服务器管理员权限。
 ; steam_group_admins = false
 
 [SHARD]
 ;;; [CHANGE THIS]
-;;; Optimally a randomly generated key
+;;; Optionally a randomly generated key / 建议使用随机生成的密钥
 cluster_key = fgdfgsdfsf
 
-;;; Do NOT change the settings below
+;;; Do NOT change the settings below.
+;;; 切勿修改以下设置。
 shard_enabled = true
-;;; Allows connections from other hosts (other containers)
+;;; Allow connections from other hosts (other containers) / 允许来自其他主机（其他容器）的连接
 bind_ip = 0.0.0.0
 
 master_ip = dst_master

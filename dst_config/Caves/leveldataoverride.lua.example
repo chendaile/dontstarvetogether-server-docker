@@ -1,13 +1,24 @@
 -- ===========================================================================
--- World generation + customization for the CAVES shard (the underground world).
+-- World generation + customization for the CAVES shard (underground world).
+-- 世界生成与定制 — 洞穴分片（地下世界）。
 --
--- Same format as the Master shard's leveldataoverride.lua (see that file's header
--- for the full explanation). The differences here are cave-specific: location is
--- "cave", roads are disabled, and the overrides table lists cave creatures and
--- resources (worms, slurtles, mushrooms, nightmare creatures, toadstool, ...).
+-- Same format as the Master shard's leveldataoverride.lua (see that file's
+-- header for the full explanation). The differences here are cave-specific:
+-- location is "cave", roads are disabled, and the overrides table lists cave
+-- creatures and resources (worms, slurtles, mushrooms, nightmare creatures,
+-- toadstool, etc.).
+-- 格式与主世界分片的 leveldataoverride.lua 相同（详见该文件头部说明）。
+-- 区别在于洞穴特有配置：location 为 "cave"，道路已禁用，
+-- 覆盖表列出洞穴生物及资源（蠕虫、蜗牛龟、蘑菇、噩梦生物、蟾蜍王等）。
+--
 -- Easiest way to regenerate: customize the caves on the in-game "Host Game"
--- screen, host once, then copy the produced leveldataoverride.lua out of the save.
--- Keep required_prefabs = { "multiplayer_portal" } so travel between shards works.
+-- screen, host once, then copy the generated file from the save directory.
+-- 推荐生成方式：在游戏内 "Host Game" 界面定制洞穴，开服一次，
+-- 然后从存档目录中复制生成的文件。
+--
+-- Keep required_prefabs = { "multiplayer_portal" } so players can travel
+-- between the surface and caves.
+-- 务必保留 required_prefabs = { "multiplayer_portal" } 以确保地表与洞穴间互通。
 -- ===========================================================================
 return {
   background_node_range={ 0, 1 },

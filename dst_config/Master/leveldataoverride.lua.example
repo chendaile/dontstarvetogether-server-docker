@@ -1,19 +1,29 @@
 -- ===========================================================================
 -- World generation + customization for the MASTER (forest) shard.
+-- 世界生成与定制 — 主世界（森林）分片。
 --
--- This is a Lua table the server reads to build and tune the world. Don't edit
--- it by hand unless you know what you want -- the easy way to produce one is the
--- in-game "Host Game" screen: customize the world there, host once, then copy the
--- generated leveldataoverride.lua out of the save. Key fields:
+-- This Lua table is the server's world-generation blueprint. Every creature,
+-- resource, and season is configured here. Customize it to shape your surface
+-- world. Key fields:
+-- 此 Lua 表是服务端的世界生成蓝图。所有生物、资源和季节均在此配置。
+-- 通过定制此文件来塑造你的地表世界。关键字段：
 --   id / location / name -> world identity ("forest" here; "cave" for caves)
+--                           世界标识（此处为 "forest"；洞穴为 "cave"）
 --   world_size           -> "default" | "small" | "medium" | "large" | "huge"
---   overrides            -> the big table below: one entry per setting, e.g.
---                           creatures, resources, seasons, day length.
+--                           世界大小
+--   overrides            -> per-setting frequency / 各设置项的频率值
 --
 -- Most overrides take a frequency word: "default" | "never" | "rare" |
 -- "uncommon" | "often" | "mostly" | "always" (some accept their own values).
--- Anything left as "default" uses the vanilla setting. Both shards must keep
--- required_prefabs = { "multiplayer_portal" } so players can travel between them.
+-- "default" = vanilla behavior. Both shards must keep
+-- required_prefabs = { "multiplayer_portal" } so players can travel between
+-- the surface and caves.
+-- 大多数覆盖项使用频率词。保留 "default" 即使用原版设置。
+-- 两个分片均须保留 required_prefabs = { "multiplayer_portal" } 以确保互通。
+--
+-- Easiest way to produce: configure the world on the in-game "Host Game" screen,
+-- host once, then copy the generated file from the save.
+-- 推荐生成方式：在游戏内 "Host Game" 界面配置世界，开服一次后从存档中复制生成的文件。
 -- ===========================================================================
 return {
   desc="The standard Don't Starve experience.",

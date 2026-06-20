@@ -1,31 +1,43 @@
-# ---------------------------------------------------------------------------
-# A DST "cluster" is made of two shards that run as two containers:
+# ===========================================================================
+# DST Cluster — two shards running as two containers, forming one world.
+# DST 集群 — 两个分片以两个容器运行，构成一个统一世界。
+#
 #   dst_master -> the surface world (forest). Players spawn here.
-#   dst_caves  -> the caves world. Joined to the master to form one world.
+#                 地表世界（森林）。玩家在此诞生。
+#   dst_caves  -> the caves world. Joined to the master via a private
+#                 Docker network using the master's container name as hostname.
+#                 洞穴世界。通过私有 Docker 网络与主世界相连，
+#                 使用主容器的容器名作为主机名。
+#
 # Both build from the same Dockerfile and share the same config + mods folders;
-# only SHARD_NAME (and the port) differs. They talk to each other over a private
-# Docker network using the master's container name as a hostname.
+# only SHARD_NAME (and the port) differs.
+# 两者由同一 Dockerfile 构建，共享相同的配置和 mod 目录；
+# 仅 SHARD_NAME 及端口不同。
 #
 # Values like ${MASTER_PORT:-11999} mean "use $MASTER_PORT from the .env file,
 # or fall back to 11999". Copy .env.example to .env to override names/ports.
-# ---------------------------------------------------------------------------
+# ${MASTER_PORT:-11999} 表示"使用 .env 文件中的 $MASTER_PORT 或回退到 11999"。
+# 复制 .env.example 为 .env 即可覆盖名称/端口。
+# ===========================================================================
 services:
   dst_caves:
-    container_name: ${CAVES_NAME:-dst_caves}   # host-visible container name
-    build: .                                   # build from ./Dockerfile
+    container_name: ${CAVES_NAME:-dst_caves}   # host-visible container name / 主机可见的容器名
+    build: .                                   # build from ./Dockerfile / 从 ./Dockerfile 构建
     ports:
-      - "${CAVES_PORT:-11998}:11998/udp"       # DST uses UDP only; host:container
+      - "${CAVES_PORT:-11998}:11998/udp"       # DST uses UDP only; host:container / DST 仅使用 UDP
     networks:
-      - dst_cluster                            # private net shared with master
+      - dst_cluster                            # private net shared with master / 与主世界共享的私有网络
     volumes:
       # Cluster config + saves. Mounted at Cluster_1 because that is the cluster
       # folder name the server expects under .klei/DoNotStarveTogether.
+      # 集群配置及存档。挂载到 Cluster_1，即服务端在 .klei/DoNotStarveTogether 下
+      # 期望的集群文件夹名称。
       - ./dst_config:/home/dst/.klei/DoNotStarveTogether/Cluster_1
-      - ./dst_server_cache:/home/dst/dst_server_cache              
-      - ./start.sh:/home/dst/start.sh:ro          # live-mount so edits apply on restart
+      - ./dst_server_cache:/home/dst/dst_server_cache
+      - ./start.sh:/home/dst/start.sh:ro          # live-mount so edits apply on restart / 实时挂载，修改后重启生效
     environment:
       - SHARD_NAME=Caves
-    depends_on: 
+    depends_on:
     - dst_master
     restart: unless-stopped
 
@@ -38,7 +50,7 @@ services:
       - "${MASTER_PORT:-11999}:11999/udp"
     volumes:
       - ./dst_config:/home/dst/.klei/DoNotStarveTogether/Cluster_1
-      - ./dst_server_cache:/home/dst/dst_server_cache 
+      - ./dst_server_cache:/home/dst/dst_server_cache
       - ./start.sh:/home/dst/start.sh:ro
     environment:
       - SHARD_NAME=Master
@@ -47,6 +59,7 @@ services:
 # Private bridge network. Containers resolve each other by service/container name
 # (e.g. cluster.ini sets master_ip = dst_master), so the caves shard can reach
 # the master without any hard-coded IPs.
+# 私有桥接网络。容器之间通过服务/容器名互相解析（如 cluster.ini 中
+# master_ip = dst_master），洞穴分片无需硬编码 IP 即可连接主世界。
 networks:
   dst_cluster:
-

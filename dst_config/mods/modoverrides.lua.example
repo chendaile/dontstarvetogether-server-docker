@@ -1,10 +1,18 @@
--- Use this file to enable and configure your mods. The mod will only be available in the game
--- if you set "enabled=true"!!!
+-- ===========================================================================
+-- Mod Overrides — enable and configure Workshop mods.
+-- Mod 覆盖配置 — 启用并配置工坊 mod。
 --
--- Also, during the container startup this file will be copied to both Master/ and Caves/ folders. What's setup here
--- will be available in both shards!
+-- Use this file to enable and configure your mods. A mod only takes effect
+-- in the game if you set "enabled=true".
+-- 用此文件启用和配置 mod。只有设置 "enabled=true" 后 mod 才会在游戏中生效。
 --
--- See the example below:
+-- During container startup this file is automatically copied to both Master/
+-- and Caves/ shard folders. What is configured here applies to both shards.
+-- 容器启动时，此文件自动复制到 Master/ 和 Caves/ 分片目录，
+-- 此处配置会同时应用于两个分片。
+--
+-- See the example below / 参考下方示例：
+-- ===========================================================================
 
 return {
   -- ["workshop-000000000"]={
@@ -13,12 +21,14 @@ return {
   --   },
   --   enabled=true
   -- },
-  
-  -- Extra Equip Slots
+
+  -- Extra Equip Slots — adds backpack and amulet slots
+  -- 额外装备槽 — 添加背包和护符槽位
   -- https://steamcommunity.com/sharedfiles/filedetails/?id=375850593
   ["workshop-375850593"]={ configuration_options={  }, enabled=true },
 
-  -- Health Info
+  -- Health Info — shows exact health values on creatures
+  -- 生物血量显示 — 显示生物精确血量数值
   -- https://steamcommunity.com/sharedfiles/filedetails/?id=375859599
   ["workshop-375859599"]={
     configuration_options={
@@ -32,7 +42,8 @@ return {
     enabled=true
   },
 
-  -- Global Positions
+  -- Global Positions — shows player and fire icons on the minimap globally
+  -- 全球定位 — 在小地图上全局显示玩家和篝火图标
   -- https://steamcommunity.com/sharedfiles/filedetails/?id=378160973
   ["workshop-378160973"]={
     configuration_options={
@@ -47,7 +58,8 @@ return {
     enabled=true
   },
 
-  -- Food Values - Item Tooltips (Server and Client)
+  -- Food Values - Item Tooltips — displays hunger, health, sanity, spoilage
+  -- 食物属性 - 物品提示 — 显示饥饿值、生命值、理智值、保质期等信息
   -- https://steamcommunity.com/sharedfiles/filedetails/?id=458940297
   ["workshop-458940297"]={
     configuration_options={
