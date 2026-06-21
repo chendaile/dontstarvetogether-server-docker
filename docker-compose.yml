@@ -33,7 +33,17 @@ services:
       # 集群配置及存档。挂载到 Cluster_1，即服务端在 .klei/DoNotStarveTogether 下
       # 期望的集群文件夹名称。
       - ./dst_config:/home/dst/.klei/DoNotStarveTogether/Cluster_1
-      - ./dst_server_cache:/home/dst/dst_server_cache
+      # Install dir as a NAMED volume (not a bind mount). Bind-mounting a host dir
+      # that doesn't yet exist makes Docker create it root:root, which masks the
+      # Dockerfile chown so steamcmd (user dst) can't write -> it silently falls
+      # back to ~/Steam and start.sh can't find the binary. A named volume is seeded
+      # from the image's dst-owned directory on first use, so it's writable by dst
+      # out of the box and never root-owned.
+      # 安装目录用命名卷（非 bind mount）。bind mount 一个不存在的宿主目录会被
+      # Docker 以 root:root 创建，覆盖 Dockerfile 的 chown，使运行 steamcmd 的 dst
+      # 用户不可写 -> 静默回退到 ~/Steam，start.sh 找不到二进制。命名卷首次挂载会从
+      # 镜像层复制内容（含属主），故开箱即对 dst 可写、永不归 root。
+      - dst_server_cache:/home/dst/dst_server_cache
       - ./start.sh:/home/dst/start.sh:ro          # live-mount so edits apply on restart / 实时挂载，修改后重启生效
     environment:
       - SHARD_NAME=Caves
@@ -50,7 +60,7 @@ services:
       - "${MASTER_PORT:-11999}:11999/udp"
     volumes:
       - ./dst_config:/home/dst/.klei/DoNotStarveTogether/Cluster_1
-      - ./dst_server_cache:/home/dst/dst_server_cache
+      - dst_server_cache:/home/dst/dst_server_cache
       - ./start.sh:/home/dst/start.sh:ro
     environment:
       - SHARD_NAME=Master
@@ -63,3 +73,11 @@ services:
 # master_ip = dst_master），洞穴分片无需硬编码 IP 即可连接主世界。
 networks:
   dst_cluster:
+
+# Named volume for the DST install + downloaded mods. Named (not a host bind mount)
+# so it is seeded from the image's dst-owned directory on first use and is never
+# root-owned; it persists across image rebuilds. `docker compose down -v` wipes it.
+# 命名卷，存放 DST 安装及 mod。用命名卷（非宿主 bind mount）使其首次挂载从镜像层
+# 继承 dst 属主、永不归 root；重建镜像时持久保留。`docker compose down -v` 会清除。
+volumes:
+  dst_server_cache:

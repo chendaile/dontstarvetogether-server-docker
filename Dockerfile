@@ -54,13 +54,15 @@ USER dst
 WORKDIR /home/dst
 
 # Persist the cluster config + world saves across container restarts.
-# Do NOT declare /home/dst/DST as a VOLUME — compose already bind-mounts over it,
-# and a VOLUME on the install dir creates a root-owned anonymous volume that
-# steamcmd (running as user dst) cannot write to during install → state 0x602.
+# The INSTALL dir (/home/dst/dst_server_cache) is deliberately NOT declared as a
+# VOLUME here: compose mounts a NAMED volume over it, which is seeded from this
+# dst-owned directory on first use, so it stays writable by user dst. A Dockerfile
+# VOLUME on the install dir (or a host bind mount of a non-existent dir) would be
+# root-owned and break the steamcmd install -> state 0x602 / silent fallback to ~/Steam.
 # 持久化集群配置及世界存档。
-# 切勿将 /home/dst/DST 声明为 VOLUME — compose 已通过 bind mount 覆盖；
-# 若在安装目录上声明 VOLUME 会创建 root 所有的匿名卷，
-# 导致以 dst 用户运行的 steamcmd 写入失败 → 报错 state 0x602。
+# 安装目录 (/home/dst/dst_server_cache) 在此故意不声明为 VOLUME：compose 用命名卷
+# 挂载，首次挂载从本 dst 所属目录复制内容，故对 dst 保持可写。若用 Dockerfile VOLUME
+# （或对不存在的宿主目录 bind mount）会归 root，破坏 steamcmd 安装 -> state 0x602 / 静默回退到 ~/Steam。
 VOLUME [ "/home/dst/.klei/DoNotStarveTogether" ]
 
 # start.sh is the entrypoint: it installs/updates DST, fetches mods, then boots

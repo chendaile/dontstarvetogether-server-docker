@@ -12,7 +12,7 @@
 
 [GAMEPLAY]
 ;; survival|endless|wilderness
-game_mode = survival
+game_mode = endless
 ;; 1..64
 max_players = 16
 ;; true|false
